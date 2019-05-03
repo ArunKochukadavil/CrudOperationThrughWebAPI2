@@ -53,8 +53,8 @@
                             @Html.DisplayFor(modelItem => item.Address)
                         </td>
                         <td class="NonEditable">
-                            <button onclick="editData(this)" class="NonEditable">Edit</button>
-                            <button onclick="deleteRecord(this)" class="NonEditable" id="delete" data-assigned-id=@Html.DisplayFor(modelItem => item.Uid)>Delete</button>
+                            <button onclick="editData(this)" class="NonEditable toggle">Edit</button>
+                            <button onclick="deleteRecord(this)" class="NonEditable toggle" id="delete" data-assigned-id=@Html.DisplayFor(modelItem => item.Uid)>Delete</button>
                             <button onclick="saveChanges(this)" class="NonEditable toggleInvert" style="display:none" data-assigned-id=@Html.DisplayFor(modelItem => item.Uid)>Save</button>
                         </td>
                     </tr>

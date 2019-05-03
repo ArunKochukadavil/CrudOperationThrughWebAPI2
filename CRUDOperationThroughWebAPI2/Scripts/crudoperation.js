@@ -15,10 +15,29 @@ function editData(elem) {
     for (let i = 0; i < val.length; i++) {
         val[i].setAttribute("contenteditable", "false");
     }
+    button = $("<button onclick='cancel(this,1)'>");
+    button.append("Cancel");
+    $(elem).parent("td").append(button);
+    console.log("yup1");
+}
+function cancel(elem,i)
+{
+    if (i == 1)
+    {
+        $(elem).parent("td").children(".toggle").show();
+        $(elem).parent("td").children(".toggleInvert").hide();
+        $(elem).parents("tr").removeAttr("bgcolor");
+        $(elem).remove();
+    }
+    else
+    {
+        $(elem).parents("tr").remove();
+    }
 }
 
 //hiting the api for saving changes done through editing
 function saveChanges(elem) {
+    $(elem).attr("disabled", true);
     var user = new Object();
     var _row = $(elem).parents("tr");
     var cols = _row.children("td");
@@ -49,11 +68,12 @@ function saveChanges(elem) {
                 document.getElementById('status').innerHTML = "No rows affected";
                 $("#status").fadeOut("slow");
             }
-                
+            $(elem).attr("disabled", false);
             refreshTableData(elem);
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation');
+            $(elem).attr("disabled", false);
         }
     });
     $(elem).parents("tr").children("td").attr("contenteditable", "false");
@@ -81,7 +101,7 @@ function refreshTableData(elem) {
                 tr.append("<td>" + data[i].MiddleName + "</td>");
                 tr.append("<td>" + data[i].LastName + "</td>");
                 tr.append("<td>" + data[i].Address + "</td>");
-                tr.append("<td><button onclick=\"editData(this)\" class=\"NonEditable\" >Edit</button> <button onclick=\"deleteRecord(this)\" class=\"NonEditable\" id=\"delete\" data-assigned-id=" + data[i].Uid + ">Delete</button> <button onclick=\"saveChanges(this)\" class=\"NonEditable toggleInvert\" style=\"display:none\" data-assigned-id=" + data[i].Uid + ">Save</button></td>");
+                tr.append("<td><button onclick=\"editData(this)\" class=\"NonEditable toggle\" >Edit</button> <button onclick=\"deleteRecord(this)\" class=\"NonEditable toggle\" id=\"delete\" data-assigned-id=" + data[i].Uid + ">Delete</button> <button onclick=\"saveChanges(this)\" class=\"NonEditable toggleInvert\" style=\"display:none\" data-assigned-id=" + data[i].Uid + ">Save</button></td>");
                 //tr.append("");
                 tr.append("</tr></tbody>");
                 $("#dataTable").append(tr);
@@ -131,10 +151,10 @@ function initInsertRecord(elem) {
     for (var i = 0; i < 4; i++) {
         tr.append("<td contentEditable=\"true\"></td>")
     }
-    tr.append("<td><button onclick=\"insertRecord(this)\">Save</button></td></tr>");
+    tr.append("<td><button onclick=\"insertRecord(this)\">Save</button> <button onclick=\"cancel(this,2)\">Cancel</button></td></tr>");
     $("#dataTable tr:last").after(tr);
-}
 
+}
 //hitting the api to insert the record
 function insertRecord(elem) {
     console.log("hello");
@@ -145,6 +165,7 @@ function insertRecord(elem) {
     userVal.middleName = $(cols[1]).text().trim();
     userVal.lastName = $(cols[2]).text().trim();
     userVal.address = $(cols[3]).text().trim();
+
     $.ajax({
         url: 'http://localhost:52028/api/values/insert',
         type: 'POST',

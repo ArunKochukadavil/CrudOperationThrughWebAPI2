@@ -70,6 +70,7 @@ namespace CRUDOperationThroughWebAPI2.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpDelete]
+
 		public string Delete(int id)
 		{
 			var dataHelper = new DataHelper();
