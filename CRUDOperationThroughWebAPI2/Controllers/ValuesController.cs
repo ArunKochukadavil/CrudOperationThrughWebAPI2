@@ -10,33 +10,78 @@ namespace CRUDOperationThroughWebAPI2.Controllers
 {
 	public class ValuesController : ApiController
 	{
+		/// <summary>
+		/// for fetching the latest records from database
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
-		[Route("api/values")]
-		public IEnumerable<UserData> Get()
+		[Route("api/values/retreive")]
+		public List<UserData> Get()
 		{
-			IEnumerable<UserData> data = new DataHelper().GetValuesFromTable();
-			return data;
+			return new DataHelper().GetValuesFromTable();
 		}
 
-		// GET api/<controller>/5
-		public string Get(int id)
+		/// <summary>
+		/// for updating the table with data send by client
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		[HttpPut]
+		[Route("api/values/update")]
+		public string Put(UserData data)
 		{
-			return "value";
+			var dataHelper = new DataHelper();
+			try
+			{
+				var isUpdateSuccess = dataHelper.UpdateUserTable(data);
+				return isUpdateSuccess.ToString();
+			}
+			catch (Exception e)
+			{
+				return e.Message;
+			}
 		}
 
-		// POST api/<controller>
-		public void Post([FromBody]string value)
+
+		/// <summary>
+		/// for inserting new records
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		[HttpPost]
+		[Route("api/values/insert")]
+		public string Post([FromBody]UserData data)
 		{
+			var dataHelper = new DataHelper();
+			try
+			{
+				var isInsertSuccess = dataHelper.InsertRecord(data);
+				return isInsertSuccess.ToString();
+			}
+			catch (Exception e)
+			{
+				return e.Message;
+			}
 		}
 
-		// PUT api/<controller>/5
-		public void Put(int id, [FromBody]string value)
+		/// <summary>
+		/// for deleting the records specified by the client
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpDelete]
+		public string Delete(int id)
 		{
-		}
-
-		// DELETE api/<controller>/5
-		public void Delete(int id)
-		{
+			var dataHelper = new DataHelper();
+			try
+			{
+				var isUpdateSuccess = dataHelper.DeleteRecord(id);
+				return isUpdateSuccess.ToString();
+			}
+			catch (Exception e)
+			{
+				return e.Message;
+			}
 		}
 	}
 }

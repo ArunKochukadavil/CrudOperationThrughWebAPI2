@@ -8,6 +8,10 @@ namespace CRUDOperationThroughWebAPI2.Controllers
 {
     public class HomeController : Controller
     {
+		/// <summary>
+		/// hits the api for fetching the table data
+		/// </summary>
+		/// <returns></returns>
         public ActionResult Index()
         {
 			var dataHelper = new DataHelper();

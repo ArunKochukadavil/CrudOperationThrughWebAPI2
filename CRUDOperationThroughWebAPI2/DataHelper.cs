@@ -11,6 +11,11 @@ namespace CRUDOperationThroughWebAPI2
 	public class DataHelper
 	{
 		string connectionString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+
+		/// <summary>
+		/// for getting records from the table
+		/// </summary>
+		/// <returns></returns>
 		public List<UserData> GetValuesFromTable()
 		{
 			var userData = new List<UserData>();
@@ -34,6 +39,12 @@ namespace CRUDOperationThroughWebAPI2
 			con.Close();
 			return userData;
 		}
+
+		/// <summary>
+		/// for updating the table with changes
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
 		public bool UpdateUserTable(UserData data)
 		{
 			SqlConnection con = new SqlConnection(connectionString);
@@ -47,8 +58,13 @@ namespace CRUDOperationThroughWebAPI2
 			int count = cmd.ExecuteNonQuery();
 			con.Close();
 			return count > 0;
-
 		}
+
+		/// <summary>
+		/// for inserting new records into the table
+		/// </summary>
+		/// <param name="data"></param>
+		/// <returns></returns>
 		public bool InsertRecord(UserData data)
 		{
 			SqlConnection con = new SqlConnection(connectionString);
@@ -59,15 +75,22 @@ namespace CRUDOperationThroughWebAPI2
 			cmd.Parameters.AddWithValue("@lastName", data.LastName);
 			cmd.Parameters.AddWithValue("@address", data.Address);
 			int count = cmd.ExecuteNonQuery();
+			
 			con.Close();
 			return count > 0;
 		}
-		public bool DeleteRecord(UserData data)
+
+		/// <summary>
+		/// for deleting the records from the table
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public bool DeleteRecord(int id)
 		{
 			SqlConnection con = new SqlConnection(connectionString);
 			con.Open();
 			SqlCommand cmd = new SqlCommand("delete from UserDataDoNotUseIt where uid=@uid", con);
-			cmd.Parameters.AddWithValue("@uid", data.Uid);
+			cmd.Parameters.AddWithValue("@uid", id);
 			int count = cmd.ExecuteNonQuery();
 			con.Close();
 			return count > 0;

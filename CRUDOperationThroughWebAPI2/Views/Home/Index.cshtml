@@ -11,66 +11,58 @@
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
     <script src="~/Scripts/jquery-1.10.2.js"></script>
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />>
-    <script>
-        function editData(elem) {
-            $(elem).parents("tr").children("td").attr("contenteditable", "true");
-            let val = document.getElementsByClassName("NonEditable");
-            console.log(val)
-            for (let i = 0; i < val.length; i++) {
-                val[i].setAttribute("contenteditable", "false");
-            }
-            
-            
-        }
-    </script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/crudoperation.js"></script>
 </head>
 <body>
     <div class="container" style="margin">
         <h2>UserData</h2>
+        <label id="status"></label>
         <table class="table" id="dataTable" border="1">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MiddleName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Address)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+            <thead>
                 <tr>
-                    <td >
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td >
-                        @Html.DisplayFor(modelItem => item.MiddleName)
-                    </td>
-                    <td >
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td >
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td class="NonEditable">
-                        <button onclick="editData(this)" class="NonEditable">Edit</button>
-                        <button id="saveChanges" onclick="saveEdittedRecord(this)" class="hidden" style="display:none">Save</button>
-                        <button class="NonEditable">Delete</button>
-                    
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MiddleName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th></th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="beggining">
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MiddleName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td class="NonEditable">
+                            <button onclick="editData(this)" class="NonEditable">Edit</button>
+                            <button onclick="deleteRecord(this)" class="NonEditable" id="delete" data-assigned-id=@Html.DisplayFor(modelItem => item.Uid)>Delete</button>
+                            <button onclick="saveChanges(this)" class="NonEditable toggleInvert" style="display:none" data-assigned-id=@Html.DisplayFor(modelItem => item.Uid)>Save</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
 
         </table>
-        <button class="btn-lg" >Insert Records</button>
+        <button onclick="initInsertRecord(this)" class="btn-lg" >Insert Records</button>
     </div>
 </body>
 </html>
