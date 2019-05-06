@@ -10,7 +10,8 @@ namespace CRUDOperationThroughWebAPI2
 {
 	public class DataHelper
 	{
-		string connectionString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+		//string connectionString = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+		string connectionString = ConfigurationManager.ConnectionStrings["ConString2"].ConnectionString;
 
 		/// <summary>
 		/// for getting records from the table
@@ -20,7 +21,8 @@ namespace CRUDOperationThroughWebAPI2
 		{
 			var userData = new List<UserData>();
 			SqlConnection con = new SqlConnection(connectionString);
-			SqlCommand cmd = new SqlCommand("Select * from [OdyContent_testDONOTUSEIT].[ODYSOLVD\\Arun.Kochukadavil].[UserDataDoNotUseIt]", con);
+			//SqlCommand cmd = new SqlCommand("Select * from [OdyContent_testDONOTUSEIT].[ODYSOLVD\\Arun.Kochukadavil].[UserDataDoNotUseIt]", con);
+			SqlCommand cmd = new SqlCommand("Select * from UserDataDoNotUseIt", con);
 			con.Open();
 			SqlDataReader data = cmd.ExecuteReader();
 			while (data.Read())
@@ -49,7 +51,8 @@ namespace CRUDOperationThroughWebAPI2
 		{
 			SqlConnection con = new SqlConnection(connectionString);
 			con.Open();
-			SqlCommand cmd = new SqlCommand("Update [OdyContent_testDONOTUSEIT].[ODYSOLVD\\Arun.Kochukadavil].[UserDataDoNotUseIt] set firstName=@firstName, middleName=@middleName, lastName=@middleName, Address=@address where uid=@uid", con);
+			//SqlCommand cmd = new SqlCommand("Update [OdyContent_testDONOTUSEIT].[ODYSOLVD\\Arun.Kochukadavil].[UserDataDoNotUseIt] set firstName=@firstName, middleName=@middleName, lastName=@middleName, Address=@address where uid=@uid", con);
+			SqlCommand cmd = new SqlCommand("Update UserDataDoNotUseIt set firstName=@firstName, middleName=@middleName, lastName=@lastName, Address=@address where uid=@uid", con);
 			cmd.Parameters.AddWithValue("@firstName", data.FirstName);
 			cmd.Parameters.AddWithValue("@middleName", data.MiddleName);
 			cmd.Parameters.AddWithValue("@lastName", data.LastName);
@@ -69,7 +72,8 @@ namespace CRUDOperationThroughWebAPI2
 		{
 			SqlConnection con = new SqlConnection(connectionString);
 			con.Open();
-			SqlCommand cmd = new SqlCommand("Insert into [OdyContent_testDONOTUSEIT].[ODYSOLVD\\Arun.Kochukadavil].[UserDataDoNotUseIt] Values(@firstName,@middleName,@lastName,@address)", con);
+			//SqlCommand cmd = new SqlCommand("Insert into [OdyContent_testDONOTUSEIT].[ODYSOLVD\\Arun.Kochukadavil].[UserDataDoNotUseIt] Values(@firstName,@middleName,@lastName,@address)", con);
+			SqlCommand cmd = new SqlCommand("Insert into UserDataDoNotUseIt Values(@firstName,@middleName,@lastName,@address)", con);
 			cmd.Parameters.AddWithValue("@firstName", data.FirstName);
 			cmd.Parameters.AddWithValue("@middleName", data.MiddleName);
 			cmd.Parameters.AddWithValue("@lastName", data.LastName);
@@ -89,7 +93,8 @@ namespace CRUDOperationThroughWebAPI2
 		{
 			SqlConnection con = new SqlConnection(connectionString);
 			con.Open();
-			SqlCommand cmd = new SqlCommand("delete from [OdyContent_testDONOTUSEIT].[ODYSOLVD\\Arun.Kochukadavil].[UserDataDoNotUseIt] where uid=@uid", con);
+			//SqlCommand cmd = new SqlCommand("delete from [OdyContent_testDONOTUSEIT].[ODYSOLVD\\Arun.Kochukadavil].[UserDataDoNotUseIt] where uid=@uid", con);
+			SqlCommand cmd = new SqlCommand("delete from UserDataDoNotUseIt where uid=@uid", con);
 			cmd.Parameters.AddWithValue("@uid", id);
 			int count = cmd.ExecuteNonQuery();
 			con.Close();

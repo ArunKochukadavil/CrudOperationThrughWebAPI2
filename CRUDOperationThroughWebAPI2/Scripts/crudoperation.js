@@ -27,6 +27,7 @@ function cancel(elem,i)
         $(elem).parent("td").children(".toggle").show();
         $(elem).parent("td").children(".toggleInvert").hide();
         $(elem).parents("tr").removeAttr("bgcolor");
+        $(elem).parents("tr").children("td").attr("contenteditable", "false");
         $(elem).remove();
     }
     else
@@ -152,7 +153,11 @@ function initInsertRecord(elem) {
         tr.append("<td contentEditable=\"true\"></td>")
     }
     tr.append("<td><button onclick=\"insertRecord(this)\">Save</button> <button onclick=\"cancel(this,2)\">Cancel</button></td></tr>");
-    $("#dataTable tr:last").after(tr);
+    if ($("#dataTable tbody").children("tr").length === 0) {
+        $("#dataTable tbody").append(tr);
+    }
+    else
+        $("#dataTable tr:last").after(tr);
 
 }
 //hitting the api to insert the record
